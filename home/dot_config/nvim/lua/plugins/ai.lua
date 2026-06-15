@@ -46,16 +46,23 @@ return {
     end,
   },
 
-  -- ⚙️ Codeium 智能补全（与 Copilot 可共存）
+  -- ⚙️ Codeium 智能补全 + Chat（与 Copilot 共存，单一 spec 入口）
   {
     "Exafunction/codeium.nvim",
     event = "InsertEnter",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+    },
     config = function()
       require("codeium").setup({
-        enable_chat = false,
-        enable_cmp_source = true, -- 让 codeium 补全出现在 nvim-cmp
+        enable_chat = true,
+        enable_cmp_source = true,
       })
     end,
+    keys = {
+      { "<leader>aC", "<cmd>Codeium Chat<cr>", desc = "AI Chat (Codeium)" },
+    },
   },
 
   -- 🧰 nvim-cmp 主补全插件（确保启用）

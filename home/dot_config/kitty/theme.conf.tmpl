@@ -1,0 +1,27 @@
+{{- /* Tokyo Night-inspired palette synced with .chezmoidata/theme.yaml. */ -}}
+# ~/.config/kitty/theme.conf — managed by chezmoi.
+
+background  {{ .theme.palette.bg }}
+foreground  {{ .theme.palette.fg }}
+selection_background {{ .theme.palette.selection }}
+selection_foreground {{ .theme.palette.fg }}
+
+# normal
+color0  #15161e
+color1  {{ .theme.palette.error }}
+color2  {{ .theme.palette.success }}
+color3  {{ .theme.palette.warning }}
+color4  {{ .theme.palette.accent }}
+color5  #bb9af7
+color6  {{ .theme.palette.info }}
+color7  #a9b1d6
+
+# bright
+color8  #414868
+color9  #ff7a93
+color10 #b9f27c
+color11 #ff9e64
+color12 #7da6ff
+color13 #bb9af7
+color14 #0db9d7
+color15 {{ .theme.palette.fg }}

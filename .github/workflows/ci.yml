@@ -1,0 +1,70 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run shellcheck on plain shell scripts
+        uses: ludeeus/action-shellcheck@2.0.0
+        with:
+          additional_files: bootstrap.sh
+          scandir: scripts
+
+  smoke:
+    name: Template smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install chezmoi
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
+
+      - name: Install zsh
+        run: sudo apt-get install -y zsh
+
+      - name: Render every template & syntax-check output
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          ./scripts/smoke.sh
+
+  apply-debian:
+    name: Apply on a Debian container (smoke install)
+    runs-on: ubuntu-latest
+    container:
+      image: debian:stable-slim
+    steps:
+      - name: Install OS-level prerequisites
+        run: |
+          apt-get update -qq
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            ca-certificates curl git sudo gnupg
+
+      - uses: actions/checkout@v4
+
+      - name: Run bootstrap (skipping the actual install via OMNIDECK_DRY_RUN)
+        env:
+          OMNIDECK_DRY_RUN: "1"
+        run: |
+          # The smoke install path: render the bootstrap script, do not actually
+          # call apt/brew. We achieve this by bailing in main() if dry-run.
+          if grep -q OMNIDECK_DRY_RUN bootstrap.sh; then
+            ./bootstrap.sh
+          else
+            # Fallback: just verify the script's syntax + that chezmoi can render
+            # the lifecycle scripts inside this container.
+            sh -n ./bootstrap.sh
+            sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
+            export PATH="$HOME/.local/bin:$PATH"
+            ./scripts/smoke.sh
+          fi

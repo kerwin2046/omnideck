@@ -1,0 +1,21 @@
+{{/* Omnideck personalization. Prompts are asked once on `chezmoi init`. */ -}}
+{{- $name        := promptStringOnce . "name"         "Your full name"             "" -}}
+{{- $email       := promptStringOnce . "email"        "Git email address"          "" -}}
+{{- $machineKind := promptChoiceOnce . "machine_kind" "Machine kind"               (list "personal" "work") "personal" -}}
+{{- $hostName    := promptStringOnce . "host_name"    "Host nickname (e.g. cyberdeck)" .chezmoi.hostname -}}
+{{- $installGui  := promptBoolOnce   . "install_gui"  "Install GUI applications?"  true -}}
+{{- $installDocker := promptBoolOnce . "install_docker" "Install Docker / container tooling?" true -}}
+
+[data]
+    name           = {{ $name | quote }}
+    email          = {{ $email | quote }}
+    machine_kind   = {{ $machineKind | quote }}
+    host_name      = {{ $hostName | quote }}
+    install_gui    = {{ $installGui }}
+    install_docker = {{ $installDocker }}
+
+[diff]
+    pager = "delta"
+
+[edit]
+    command = "nvim"

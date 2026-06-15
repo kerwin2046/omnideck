@@ -1,0 +1,52 @@
+# ~/.config/lazygit/config.yml — managed by chezmoi.
+
+gui:
+  showFileTree: true
+  showCommandLog: false
+  nerdFontsVersion: "3"
+  scrollHeight: 4
+  scrollPastBottom: true
+  mouseEvents: true
+  authorColors:
+    "*": "#7aa2f7"
+  theme:
+    activeBorderColor:
+      - "#7aa2f7"
+      - bold
+    inactiveBorderColor:
+      - "#414868"
+    selectedLineBgColor:
+      - "#283457"
+    optionsTextColor:
+      - "#7dcfff"
+
+git:
+  paging:
+    colorArg: always
+    pager: delta --paging=never --line-numbers --syntax-theme=TwoDark
+  commit:
+    signOff: false
+    verbose: default
+  merging:
+    args: ""
+  log:
+    order: "topo-order"
+    showGraph: "always"
+  autoFetch: true
+  autoRefresh: true
+  fetchAll: true
+
+update:
+  method: prompt
+  days: 14
+
+confirmOnQuit: false
+disableStartupPopups: true
+notARepository: prompt
+promptToReturnFromSubprocess: true
+
+keybinding:
+  universal:
+    quit: q
+    return: <esc>
+    togglePanel: <tab>

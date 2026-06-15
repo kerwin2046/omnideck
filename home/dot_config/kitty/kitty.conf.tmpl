@@ -1,0 +1,71 @@
+{{- /* Kitty terminal config. */ -}}
+# ~/.config/kitty/kitty.conf — managed by chezmoi.
+
+# --- Font ----------------------------------------------------------------
+font_family      {{ .theme.font.family }}
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+font_size        {{ .theme.font.size_terminal }}
+adjust_line_height 110%
+
+# --- Cursor / selection --------------------------------------------------
+cursor           {{ .theme.palette.cursor }}
+cursor_shape     beam
+cursor_blink_interval 0.5
+
+# --- Scrollback ----------------------------------------------------------
+scrollback_lines 100000
+scrollback_pager less --chop-long-lines --RAW-CONTROL-CHARS +INPUT_LINE_NUMBER
+
+# --- URLs ----------------------------------------------------------------
+url_color {{ .theme.palette.accent }}
+url_style curly
+detect_urls yes
+
+# --- Mouse ---------------------------------------------------------------
+mouse_hide_wait 2.0
+copy_on_select yes
+strip_trailing_spaces smart
+
+# --- Window --------------------------------------------------------------
+remember_window_size  yes
+initial_window_width  120c
+initial_window_height 36c
+window_padding_width 8
+hide_window_decorations titlebar-only
+{{ if eq .chezmoi.os "darwin" -}}
+macos_option_as_alt yes
+macos_quit_when_last_window_closed yes
+{{- end }}
+
+# --- Tabs ----------------------------------------------------------------
+tab_bar_edge          top
+tab_bar_style         powerline
+tab_powerline_style   slanted
+tab_title_template    "{index}: {title[:20]}"
+tab_bar_min_tabs      1
+
+# --- Bell ----------------------------------------------------------------
+enable_audio_bell no
+
+# --- Theme ---------------------------------------------------------------
+include theme.conf
+
+# --- Keymaps -------------------------------------------------------------
+{{ if eq .chezmoi.os "darwin" -}}
+map cmd+t new_tab
+map cmd+w close_tab
+map cmd+] next_tab
+map cmd+[ previous_tab
+map cmd+enter toggle_fullscreen
+{{- else -}}
+map ctrl+shift+t new_tab
+map ctrl+shift+w close_tab
+map ctrl+shift+] next_tab
+map ctrl+shift+[ previous_tab
+map ctrl+shift+enter toggle_fullscreen
+{{- end }}
+
+# Reload config without restart.
+map ctrl+shift+f5 load_config_file

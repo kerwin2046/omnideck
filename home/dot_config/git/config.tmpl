@@ -1,0 +1,85 @@
+{{- /* Global git config. */ -}}
+# ~/.config/git/config — managed by chezmoi.
+
+[user]
+    name  = {{ .name | quote }}
+    email = {{ .email | quote }}
+
+[init]
+    defaultBranch = main
+
+[core]
+    editor       = nvim
+    excludesfile = ~/.gitignore_global
+    pager        = delta
+    autocrlf     = input
+
+[pull]
+    rebase   = true
+    autostash = true
+
+[push]
+    default       = simple
+    autoSetupRemote = true
+    followTags    = true
+
+[fetch]
+    prune     = true
+    pruneTags = true
+
+[rebase]
+    autoSquash = true
+    autoStash  = true
+
+[merge]
+    conflictStyle = zdiff3
+
+[diff]
+    algorithm = histogram
+    colorMoved = default
+    renames = copies
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate     = true
+    line-numbers = true
+    side-by-side = false
+    syntax-theme = TwoDark
+
+[color]
+    ui = auto
+
+[help]
+    autocorrect = prompt
+
+[rerere]
+    enabled = true
+
+[branch]
+    sort = -committerdate
+
+[tag]
+    sort = -version:refname
+
+[alias]
+    s   = status -sb
+    co  = checkout
+    br  = branch
+    cm  = commit -m
+    ca  = commit --amend --no-edit
+    last = log -1 HEAD
+    lg  = log --oneline --graph --decorate -20
+    unstage = reset HEAD --
+    please = push --force-with-lease
+
+{{ if eq .machine_kind "work" -}}
+# Work-specific identity overrides go here. Keep secrets out of the repo —
+# this block is just signposting; real overrides land in ~/.config/git/work
+# which is loaded conditionally based on the path of the repo.
+[includeIf "gitdir:~/work/"]
+    path = ~/.config/git/work
+{{- end }}
+
+# Personal projects always pull this base config; nothing extra needed.

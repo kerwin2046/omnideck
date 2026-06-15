@@ -10,7 +10,7 @@ return {
     opts = {
       debug = false,
       window = {
-        layout = "float", -- 浮动窗口
+        layout = "float",
         relative = "editor",
         width = 0.8,
         height = 0.8,
@@ -24,25 +24,11 @@ return {
       },
     },
     keys = {
-      { "<leader>ac", ":CopilotChat<CR>", desc = "AI Chat (Copilot)" },
-      { "<leader>ae", ":CopilotChatExplain<CR>", desc = "Explain code" },
-      { "<leader>af", ":CopilotChatFix<CR>", desc = "Fix code" },
-      { "<leader>ao", ":CopilotChatOptimize<CR>", desc = "Optimize code" },
-      { "<leader>ad", ":CopilotChatDoc<CR>", desc = "Generate doc" },
-    },
-  },
-
-  -- === Codeium Chat（可选）===
-  {
-    "Exafunction/codeium.nvim",
-    event = "BufEnter",
-    config = function()
-      require("codeium").setup({
-        enable_chat = true,
-      })
-    end,
-    keys = {
-      { "<leader>ai", ":Codeium Chat<CR>", desc = "AI Chat (Codeium)" },
+      { "<leader>ac", "<cmd>CopilotChat<cr>", desc = "AI Chat (Copilot)" },
+      { "<leader>ae", "<cmd>CopilotChatExplain<cr>", desc = "Explain code" },
+      { "<leader>af", "<cmd>CopilotChatFix<cr>", desc = "Fix code" },
+      { "<leader>ao", "<cmd>CopilotChatOptimize<cr>", desc = "Optimize code" },
+      { "<leader>ad", "<cmd>CopilotChatDoc<cr>", desc = "Generate doc" },
     },
   },
 }

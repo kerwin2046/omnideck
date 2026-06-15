@@ -28,7 +28,6 @@ return {
     config = function()
       ---@type opencode.Opts
       vim.g.opencode_opts = {}
-      vim.o.autoread = true -- Required for `opts.events.reload`.
 
       vim.api.nvim_create_autocmd({ "TermOpen" }, {
         group = vim.api.nvim_create_augroup("opencode_buffer", { clear = false }),

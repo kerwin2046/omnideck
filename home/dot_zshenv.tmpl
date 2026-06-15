@@ -1,0 +1,37 @@
+{{- /* Loaded for every zsh: login, interactive, scripted. Keep cheap. */ -}}
+# ~/.zshenv — managed by chezmoi. Edit the source: home/dot_zshenv.tmpl
+
+# XDG base dirs (anchor everything else here).
+: "${XDG_CONFIG_HOME:=$HOME/.config}"
+: "${XDG_DATA_HOME:=$HOME/.local/share}"
+: "${XDG_CACHE_HOME:=$HOME/.cache}"
+: "${XDG_STATE_HOME:=$HOME/.local/state}"
+export XDG_CONFIG_HOME XDG_DATA_HOME XDG_CACHE_HOME XDG_STATE_HOME
+
+# Pull ~/.local/bin onto PATH ahead of system dirs.
+typeset -U path PATH
+path=("$HOME/.local/bin" $path)
+
+# mise activate happens in zshrc (interactive) and elsewhere can use shims.
+path=("$XDG_DATA_HOME/mise/shims" $path)
+
+{{ if eq .chezmoi.os "darwin" -}}
+# Homebrew shellenv for both Apple Silicon and Intel.
+if [[ -x /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -x /usr/local/bin/brew ]]; then
+  eval "$(/usr/local/bin/brew shellenv)"
+fi
+{{- end }}
+
+export EDITOR="nvim"
+export VISUAL="nvim"
+export PAGER="less -R"
+export LESS="-R --mouse --wheel-lines=3"
+
+# Less history goes inside XDG.
+export LESSHISTFILE="$XDG_STATE_HOME/less/history"
+[[ -d $LESSHISTFILE:h ]] || mkdir -p "$LESSHISTFILE:h"
+
+export OMNIDECK_HOST="{{ .host_name }}"
+export OMNIDECK_KIND="{{ .machine_kind }}"

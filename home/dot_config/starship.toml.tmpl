@@ -1,0 +1,80 @@
+{{- /* Themed starship prompt. Color tokens come from .chezmoidata/theme.yaml */ -}}
+# ~/.config/starship.toml — managed by chezmoi.
+
+format = """
+[](fg:#7aa2f7)\
+$os\
+$username\
+[](bg:#283457 fg:#7aa2f7)\
+$directory\
+[](fg:#283457 bg:#1a1b26)\
+$git_branch\
+$git_status\
+[](fg:#1a1b26)\
+$fill\
+$cmd_duration\
+$time\
+$line_break\
+$character"""
+
+palette = "omnideck"
+
+[palettes.omnideck]
+bg     = "{{ .theme.palette.bg }}"
+fg     = "{{ .theme.palette.fg }}"
+accent = "{{ .theme.palette.accent }}"
+error  = "{{ .theme.palette.error }}"
+warn   = "{{ .theme.palette.warning }}"
+ok     = "{{ .theme.palette.success }}"
+
+[fill]
+symbol = " "
+
+[username]
+show_always = true
+style_user = "bg:#7aa2f7 fg:#1a1b26"
+style_root = "bg:#7aa2f7 fg:#1a1b26"
+format = '[ $user ]($style)'
+
+[os]
+disabled = false
+style = "bg:#7aa2f7 fg:#1a1b26"
+format = "[ $symbol]($style)"
+
+[os.symbols]
+Macos    = ""
+Ubuntu   = ""
+Debian   = ""
+Linux    = ""
+Pop      = ""
+
+[directory]
+style = "bg:#283457 fg:#c0caf5"
+format = "[ $path ]($style)"
+truncation_length = 4
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = " "
+style = "bg:#1a1b26 fg:#7aa2f7"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = "bg:#1a1b26 fg:#e0af68"
+format = '[$all_status$ahead_behind ]($style)'
+
+[cmd_duration]
+min_time = 500
+style = "fg:#e0af68"
+format = '[  $duration ]($style)'
+
+[time]
+disabled = false
+time_format = "%R"
+style = "fg:#7dcfff"
+format = '[  $time ]($style)'
+
+[character]
+success_symbol = "[❯](bold fg:#9ece6a)"
+error_symbol   = "[❯](bold fg:#f7768e)"
+vimcmd_symbol  = "[❮](bold fg:#7aa2f7)"

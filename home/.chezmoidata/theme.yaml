@@ -1,0 +1,18 @@
+# Visual identity shared across kitty, starship, lazygit, etc.
+# Consumed by chezmoi templates via `{{ .theme.<key> }}`.
+
+theme:
+  name: omnideck
+  font:
+    family: "JetBrainsMono Nerd Font"
+    size_terminal: 14
+  palette:
+    bg:        "#1a1b26"
+    fg:        "#c0caf5"
+    accent:    "#7aa2f7"
+    selection: "#283457"
+    cursor:    "#c0caf5"
+    success:   "#9ece6a"
+    warning:   "#e0af68"
+    error:     "#f7768e"
+    info:      "#7dcfff"

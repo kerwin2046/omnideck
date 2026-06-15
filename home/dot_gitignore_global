@@ -1,0 +1,58 @@
+# ~/.gitignore_global — managed by chezmoi.
+
+# OS junk
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.netrwhist
+.nvim/
+
+# Direnv
+.envrc.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.python-version
+
+# Node
+node_modules/
+.pnp.*
+.npm/
+.yarn/
+.parcel-cache/
+
+# Rust
+target/
+
+# Go
+go.work.local
+
+# Build outputs
+dist/
+build/
+out/
+
+# Logs / coverage
+*.log
+coverage/
+.coverage
+
+# Secrets that should never be committed
+.env
+.env.local
+.env.*.local
+*.pem
+*.key

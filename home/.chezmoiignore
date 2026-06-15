@@ -1,0 +1,15 @@
+{{- /* Files in this list are ignored by chezmoi (not deployed to the home dir). */ -}}
+
+README.md
+LICENSE
+.DS_Store
+
+{{- if ne .chezmoi.os "darwin" }}
+
+Library/**
+{{- end }}
+
+{{- if eq .chezmoi.os "darwin" }}
+
+.config/systemd/**
+{{- end }}

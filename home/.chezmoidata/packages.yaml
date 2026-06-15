@@ -1,0 +1,78 @@
+# Omnideck single-source-of-truth package manifest.
+#
+# Each category lists installable packages by *channel* (brew, brew_cask, apt,
+# cargo_fallback, github_release). The lifecycle script
+# `home/.chezmoiscripts/run_onchange_before_10-install-packages.sh.tmpl`
+# reads these arrays via chezmoi templates and emits the platform-appropriate
+# install commands.
+#
+# Every category that should run on a host must have an entry per relevant
+# channel. Use `[]` (not unset) for "intentionally none on this OS".
+
+packages:
+  core:
+    brew:           [git, curl, wget, gnupg]
+    brew_cask:      []
+    apt:            [git, curl, wget, gnupg, ca-certificates, software-properties-common]
+    cargo_fallback: []
+    github_release: []
+
+  cli_modern:
+    brew:           [ripgrep, fd, fzf, bat, eza, zoxide, atuin, jq, yq, git-delta, dust, duf, procs, tealdeer, htop, btop, tree]
+    brew_cask:      []
+    apt:            [ripgrep, fd-find, fzf, bat, jq, htop, tree]
+    cargo_fallback: [eza, zoxide, atuin, git-delta, du-dust, duf, procs, tealdeer]
+    github_release: []
+
+  shell:
+    brew:           [zsh, starship]
+    brew_cask:      []
+    apt:            [zsh]
+    cargo_fallback: []
+    github_release:
+      - { repo: "starship/starship", asset_pattern: "starship-x86_64-unknown-linux-gnu.tar.gz", bin: "starship" }
+
+  git:
+    brew:           [lazygit, gh]
+    brew_cask:      []
+    apt:            [gh]
+    cargo_fallback: []
+    github_release:
+      - { repo: "jesseduffield/lazygit", asset_pattern: "lazygit_*_Linux_x86_64.tar.gz", bin: "lazygit" }
+
+  runtime:
+    brew:           [mise]
+    brew_cask:      []
+    apt:            [mise]
+    cargo_fallback: []
+    github_release: []
+
+  container:
+    brew:           [lazydocker]
+    brew_cask:      [docker]
+    apt:            []
+    cargo_fallback: []
+    github_release:
+      - { repo: "jesseduffield/lazydocker", asset_pattern: "lazydocker_*_Linux_x86_64.tar.gz", bin: "lazydocker" }
+    apt_external:   docker-ce
+
+  fonts:
+    brew:           []
+    brew_cask:      [font-jetbrains-mono-nerd-font]
+    apt:            []
+    cargo_fallback: []
+    github_release: []
+
+  gui_mac:
+    brew:           []
+    brew_cask:      [kitty, raycast, rectangle, visual-studio-code, stats]
+    apt:            []
+    cargo_fallback: []
+    github_release: []
+
+  gui_linux:
+    brew:           []
+    brew_cask:      []
+    apt:            [kitty]
+    cargo_fallback: []
+    github_release: []

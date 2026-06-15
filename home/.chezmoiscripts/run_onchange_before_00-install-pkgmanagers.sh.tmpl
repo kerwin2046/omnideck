@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# Bootstrap secondary package managers that the main package install script
+# will rely on (mise apt repo, docker apt repo). Runs *before* the main
+# install script and re-runs whenever its content changes.
+
+set -euo pipefail
+
+log() { printf '\033[1;36m==>\033[0m %s\n' "$*"; }
+
+{{ if eq .chezmoi.os "linux" -}}
+###############################################################################
+# Debian: register third-party apt repos so the main installer can use apt    #
+# for mise and (optionally) docker.                                           #
+###############################################################################
+
+# --- mise ---
+if ! command -v mise >/dev/null 2>&1 && [ ! -f /etc/apt/sources.list.d/mise.list ]; then
+  log "Adding mise apt repo"
+  sudo install -dm 755 /etc/apt/keyrings
+  curl -fsSL https://mise.jdx.dev/gpg-key.pub \
+    | sudo gpg --dearmor -o /etc/apt/keyrings/mise-archive-keyring.gpg
+  ARCH="$(dpkg --print-architecture)"
+  echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=${ARCH}] https://mise.jdx.dev/deb stable main" \
+    | sudo tee /etc/apt/sources.list.d/mise.list >/dev/null
+fi
+
+{{ if .install_docker -}}
+# --- docker ---
+if ! command -v docker >/dev/null 2>&1 && [ ! -f /etc/apt/sources.list.d/docker.list ]; then
+  log "Adding docker apt repo"
+  sudo install -dm 755 /etc/apt/keyrings
+  . /etc/os-release
+  DISTRO_ID="${ID}"
+  CODENAME="${VERSION_CODENAME:-$UBUNTU_CODENAME}"
+  curl -fsSL "https://download.docker.com/linux/${DISTRO_ID}/gpg" \
+    | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  ARCH="$(dpkg --print-architecture)"
+  echo "deb [arch=${ARCH} signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/${DISTRO_ID} ${CODENAME} stable" \
+    | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+fi
+{{ end -}}
+
+# Refresh once after touching repo lists.
+sudo apt-get update -qq
+{{ end -}}
+
+{{ if eq .chezmoi.os "darwin" -}}
+###############################################################################
+# macOS: nothing to do here, Homebrew is sufficient. Placeholder kept so the  #
+# script always exists across platforms.                                      #
+###############################################################################
+log "macOS: no extra package managers to bootstrap"
+{{ end -}}

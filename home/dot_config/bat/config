@@ -1,0 +1,7 @@
+# ~/.config/bat/config — managed by chezmoi.
+
+--theme="TwoDark"
+--style="numbers,changes,header"
+--paging=auto
+--map-syntax="*.conf:INI"
+--map-syntax=".gitconfig:INI"
