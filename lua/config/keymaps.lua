@@ -20,3 +20,7 @@ vim.keymap.set("n", "<leader>tt", function()
     },
   })
 end, { desc = "Floating Terminal" })
+
+vim.keymap.set("n", "<leader>lc", "<cmd>Leet<cr>", {
+  desc = "LeetCode",
+})
